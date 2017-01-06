@@ -12,7 +12,7 @@
         <path_endpoint>x_64935_gql_proc</path_endpoint>
         <require_csrf>false</require_csrf>
         <roles/>
-        <script><![CDATA[/** 
+        <script><![CDATA[/**
 * GQL (Glide Query Language) Processor
 *
 * MIT License http://tldrlegal.com/l/mit
@@ -29,19 +29,20 @@
 		var format = g_request.getParameter('format');
 		var result = new GQL().query(gql, format);
 
-		/** 
+		/**
 		 * disable page caching to avoid stale result
 		 * g_response.setHeader() overwrites existing header
 		 * g_response.addHeader() unavailable in scoped GlideServletResponse
 		 * http://wiki.servicenow.com?title=Scoped_GlideServletResponse_API_Reference
 		 * usually need all 3 to be sure, but for now set only 'cache-control'
-		 */  
+		 */
 		g_response.setHeader('cache-control', 'no-cache');
 		//g_response.addHeader('pragma', 'no-cache');
 		//g_response.addHeader('expires', '-1');
 
 		if (/CSV/i.test(format)) {
-			var filename = result.query && result.query.table || 'gql';
+      var name = g_request.getParameter('name');
+			var filename = name || result.query && result.query.table || 'gql';
 			g_response.setHeader('Content-Disposition', 'attachment;filename=' + filename + '.csv');
 			g_processor.writeOutput('text/csv', getCSV());
 		}
@@ -61,21 +62,21 @@
 		}
 		return rows.join('\r\n');
 
-		/** 
-		 * Takes raw field value and returns CSV escaped value 
+		/**
+		 * Takes raw field value and returns CSV escaped value
 		 * based on RFC 4180 Common Format and MIME Type for CSV Files
-		 * October 2005 http://tools.ietf.org/html/rfc4180 
-		 * 
-		 * @param {string} raw - raw field value 
-		 * @return {string} escaped CSV field value, if applicable per RFC 4180 
-		 */  
+		 * October 2005 http://tools.ietf.org/html/rfc4180
+		 *
+		 * @param {string} raw - raw field value
+		 * @return {string} escaped CSV field value, if applicable per RFC 4180
+		 */
 		function escapeCSV(raw) {
-			var out = (raw + '').replace(/"/g,'""');  // escape all double quotes  
+			var out = (raw + '').replace(/"/g,'""');  // escape all double quotes
 			if (/[\r\n",]/.test(out)) out = '"' + out + '"';  // if it has special characters, enclose in double quotes
 			return out;
-		}  
+		}
 	}
-	
+
 	function getHTML() {
 
 		var columns = [], rows = ['<table><thead><tr><th>'];
@@ -94,21 +95,22 @@
 			return (raw + '').replace(/[&<>]/g, function(c) { return MAP[c]; });
 		}
 	}
-})(g_request, g_response, g_processor);]]></script>
+})(g_request, g_response, g_processor);
+]]></script>
         <sys_class_name>sys_processor</sys_class_name>
         <sys_created_by>john.chun</sys_created_by>
         <sys_created_on>2016-10-18 11:57:00</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
+        <sys_customer_update>true</sys_customer_update>
         <sys_id>3e0e24694f26a600463efd218110c7da</sys_id>
-        <sys_mod_count>121</sys_mod_count>
+        <sys_mod_count>122</sys_mod_count>
         <sys_name>GQL</sys_name>
         <sys_package display_value="gql" source="x_64935_gql">a4d8ddd54f62a600463efd218110c731</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="gql">a4d8ddd54f62a600463efd218110c731</sys_scope>
         <sys_update_name>sys_processor_3e0e24694f26a600463efd218110c7da</sys_update_name>
-        <sys_updated_by>john.chun</sys_updated_by>
-        <sys_updated_on>2016-10-27 14:25:02</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-01-06 21:54:57</sys_updated_on>
         <type>script</type>
     </sys_processor>
 </record_update>

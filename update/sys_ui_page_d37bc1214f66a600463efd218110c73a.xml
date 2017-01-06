@@ -11,6 +11,29 @@
 
 var app = angular.module('gqlpad', []);
 
+app.filter('toURL', ['$httpParamSerializer', function ($httpParamSerializer) {
+    return function(params) {
+        var a = [];
+        for (p in params) {
+            var r = "";
+            if (p && params[p]) {
+                if (p.toString() == 'gql') {
+                    r += p.toString() + '=';
+                    var t = params[p].toString();
+                    t = t.replace(/ /gm, "+").replace(/\[/gm, "%5B").replace(/\]/gm, "%5D").replace(/$/mg, "%0D").replace(/\^/gm, "%5E");
+                    console.log(t);
+                    r += t;
+                } else {
+                    r += p.toString() + '=' + params[p].toString();
+                }
+                a.push(r);
+            }
+        }
+        // console.log(r);
+        return a.join('&');
+    };
+}]);
+
 app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
 
 	// set initial value
@@ -27,6 +50,7 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 	$scope.format = $scope.formats[1];  // default to HTML
 
 	$scope.appSelect = function(name) {
+    $scope.name = name;
 	  $scope.gql = "Loading query for app: " + name;
 	    $http.get('/x_64935_gql_proc.do', { params: {
           gql: 'SELECT roles FROM sys_app_application WHERE title=' + name,
@@ -42,7 +66,7 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
               now: Date.now()
           }}).then(function(response) {
               var data = response.data.records;
-              var query = 'role=' + data.map(function (x) { return x.sys_id;}).join('^NQrole=');
+              var query = 'user.active=true^role=' + data.map(function (x) { return x.sys_id;}).join('^ORrole=');
               $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
           });
           // console.log(query);
@@ -55,9 +79,13 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 		$scope.timer = '';
 		$scope.result = '';
 		var params = { gql:$scope.gql, format:$scope.format.name, now:Date.now() };  // add now() to prevent caching
+    if ($scope.name) {
+        params['name'] = $scope.name.replace(/ /g, '_').replace(/\//g, '_');
+    }
 		$http.get('/x_64935_gql_proc.do', { params: params }).then(function(response) {
 
 			var data = response.data;
+      $scope.params = params;
 
 			$scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);  // stringify to show JSON on page
 			$scope.timer  = 'took ' + ((Date.now() - timer) / 1e3) + ' seconds';
@@ -71,7 +99,6 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
           now: Date.now()
       }}).then(function(response) {
           $scope.apps = response.data.records;
-          console.log($scope.apps);
       });
   };
 
@@ -109,6 +136,10 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
 			<select ng-model="format" ng-options="format.name for format in formats"></select>
 		</label>
 		<button ng-click="run()" style="width:80px;" accesskey="r"><u>R</u>un</button>
+		<button ng-if="params" ng-model="params" style="width:80px; margin-left: 10px;"
+            accesskey="D">
+      <a target="_blank" href="/x_64935_gql_proc.do?{{params | toURL}}"><u>D</u>ownload</a>
+    </button>
 		<span ng-bind="timer" style="color:gray; font:9pt Consolas; margin-left:30px;"></span>
 		<br/>
 		<div ng-bind-html="status" style="font:9pt Consolas; background-color:lightyellow;"></div>
@@ -125,9 +156,9 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
         <sys_class_name>sys_ui_page</sys_class_name>
         <sys_created_by>john.chun</sys_created_by>
         <sys_created_on>2016-10-18 13:52:56</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
+        <sys_customer_update>true</sys_customer_update>
         <sys_id>d37bc1214f66a600463efd218110c73a</sys_id>
-        <sys_mod_count>179</sys_mod_count>
+        <sys_mod_count>215</sys_mod_count>
         <sys_name>pad</sys_name>
         <sys_package display_value="gql" source="x_64935_gql">a4d8ddd54f62a600463efd218110c731</sys_package>
         <sys_policy/>
@@ -135,6 +166,6 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
         <sys_scope display_value="gql">a4d8ddd54f62a600463efd218110c731</sys_scope>
         <sys_update_name>sys_ui_page_d37bc1214f66a600463efd218110c73a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-01-06 05:30:28</sys_updated_on>
+        <sys_updated_on>2017-01-06 22:00:16</sys_updated_on>
     </sys_ui_page>
 </record_update>
