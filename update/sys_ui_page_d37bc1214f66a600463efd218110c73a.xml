@@ -15,7 +15,13 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 
 	// set initial value
 	$scope.gql = 'SELECT  -- sample GQL statement\r  number [Number]\r  , short_description [Title]\r  , dv_state [State]\r  , caller_id.email [Caller Email]\r  , caller_id.manager.email [Manager Email]\r  , dv_cmdb_ci [CI]\r  , cmdb_ci\rFROM incident\rWHERE active=true^priority<2^EQ^ORDERBYpriority^ORDERBYDESCnumber\rLIMIT 5,10';
-	
+
+	$scope.apps = [
+    {name:'System UI' },
+    {name:'Timeline Visualization'},
+	];
+
+
 	$scope.formats = [
       {name:'CSV' },
       {name:'HTML'},
@@ -23,6 +29,31 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
       {name:'JSON'},
     ];
 	$scope.format = $scope.formats[1];  // default to HTML
+
+	$scope.appSelect = function(name) {
+	  $scope.gql = "Loading query for app: " + name;
+	    $http.get('/x_64935_gql_proc.do', { params: {
+          gql: 'SELECT roles FROM sys_app_application WHERE title=' + name,
+          // gql: 'SELECT name [Name], sys_id [SYS ID] FROM sys_user_role WHERE nameSTARTSWITHadmin',
+          format: 'JSON',
+          now:Date.now()
+      }}).then(function(response) {
+          var data = response.data;
+          console.log(data);
+          var query = "name=" + data.records[0].roles.split(',').join('^NQname=');
+          $http.get('/x_64935_gql_proc.do', { params: {
+              gql: 'SELECT sys_id FROM sys_user_role WHERE ' + query,
+              format: 'JSON',
+              now: Date.now()
+          }}).then(function(response) {
+              var data = response.data.records;
+              var query = 'role=' + data.map(function (x) { return x.sys_id;}).join('^NQrole=');
+              $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
+          });
+          // console.log(query);
+		      // $scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);
+	  });
+	};
 
 	$scope.run = function() {
 		var timer = Date.now();
@@ -32,12 +63,13 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 		$http.get('/x_64935_gql_proc.do', { params: params }).then(function(response) {
 
 			var data = response.data;
-			
+
 			$scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);  // stringify to show JSON on page
 			$scope.timer  = 'took ' + ((Date.now() - timer) / 1e3) + ' seconds';
 		});
 	}
-}]);]]></client_script>
+}]);
+]]></client_script>
         <description>GQL (Glide Query Language) Pad</description>
         <direct>true</direct>
         <endpoint>x_64935_gql_pad.do</endpoint>
@@ -59,6 +91,10 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
 <body ng-app="gqlpad">
 	<h3>GQL (Glide Query Language) Pad</h3>
 	<div ng-controller="EditorCtrl">
+		<label>Applications:
+			<select ng-model="app" ng-options="app.name for app in apps" ng-change="appSelect(app.name)"></select>
+		</label>
+		<br/>
 		<textarea ng-model="gql" rows="20" style="font:9pt Consolas; width:100%;"></textarea>
 		<br/>
 		<label>Output format:
@@ -82,14 +118,14 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
         <sys_created_on>2016-10-18 13:52:56</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>d37bc1214f66a600463efd218110c73a</sys_id>
-        <sys_mod_count>130</sys_mod_count>
+        <sys_mod_count>172</sys_mod_count>
         <sys_name>pad</sys_name>
         <sys_package display_value="gql" source="x_64935_gql">a4d8ddd54f62a600463efd218110c731</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="gql">a4d8ddd54f62a600463efd218110c731</sys_scope>
         <sys_update_name>sys_ui_page_d37bc1214f66a600463efd218110c73a</sys_update_name>
-        <sys_updated_by>john.chun</sys_updated_by>
-        <sys_updated_on>2016-10-27 16:31:24</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-01-06 04:53:59</sys_updated_on>
     </sys_ui_page>
 </record_update>
