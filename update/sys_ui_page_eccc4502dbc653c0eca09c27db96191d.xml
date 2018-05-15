@@ -49,47 +49,64 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
     ];
 	$scope.format = $scope.formats[1];  // default to HTML
 
-	$scope.appSelect = function(name) {
-    $scope.name = name;
-	  $scope.gql = "Loading query for app: " + name;
-	  var p1 = $http.get('/x_64935_gql_proc.do', { params: {
-          gql: 'SELECT roles, sys_id FROM sys_app_application WHERE title=' + name,
-          // gql: 'SELECT name [Name], sys_id [SYS ID] FROM sys_user_role WHERE nameSTARTSWITHadmin',
-          format: 'JSON',
-          now:Date.now()
-      }});
-	  var p2 = $http.get('/x_64935_gql_proc.do', { params: {
-		  gql: 'SELECT roles FROM sys_app_module WHERE application.title=' + name,
-		  format: 'JSON',
-		  now:Date.now()
-	  }});
-	  var p3 = $http.get('/x_64935_gql_proc.do', { params: {
-		  gql: 'SELECT roles FROM x_nyk_admin_app_complimentary_app_roles WHERE application.title=' + name,
-		  format: 'JSON',
-		  now:Date.now()
-	  }});
-	  Promise.all([p1, p2, p3]).then(function (values) {
-		  var allRoles = values.map(function(x) {return x.data.records;})
-		  .reduce(function(s, x) {
-			  return s.concat(x);
-		  }, []).filter(function(x) {return x.roles != '';}).map(function(x) {return x.roles;}).reduce(function(s, x) {
-			  return s.indexOf(x) == -1 ? s.concat(x) : s;
-		  }, []).join(',');
-		  return allRoles;
-	  }).then(function(roles) {
-          var query = "nameIN" + roles;
-          $http.get('/x_64935_gql_proc.do', { params: {
-              gql: 'SELECT sys_id FROM sys_user_role WHERE ' + query,
-              format: 'JSON',
-              now: Date.now()
-          }}).then(function(response) {
-              var data = response.data.records;
-              var query = 'user.active=true^roleIN' + data.map(function (x) { return x.sys_id;}).join(',');
-              $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , dv_user.email [User Email]\r  , dv_user.user_name [User ID]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
-          });
-          // console.log(query);
-		      // $scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);
-	  });
+	$scope.appSelect = function(app) {
+		$scope.gql = [
+			'SELECT -- sample GQL statement for app: ' + app.u_name,
+			'  user.last_login [User Last Login],',
+			'  dv_user [User],',
+			'  user.user_name [User ID],',
+			'  user.u_license_type [User License Type],',
+			'  dv_group [Group],',
+			'  group.u_license_type [Group License Type],',
+			'  group.dv_u_applications [Applications]',
+			'FROM sys_user_grmember',
+			'WHERE',
+			'  -- Remove the NEXT line for full report',
+			'  group.u_applicationsLIKE' + app.sys_id + '^',
+			'  user.user_nameISNOTEMPTY^ORDERBYuser',
+			'-- LIMIT 5, 10'
+		].join('\r');
+    // $scope.name = name;
+	//   $scope.gql = "Loading query for app: " + name;
+	//   var p1 = $http.get('/x_64935_gql_proc.do', { params: {
+    //       gql: 'SELECT roles, sys_id FROM sys_app_application WHERE title=' + name,
+    //       // gql: 'SELECT name [Name], sys_id [SYS ID] FROM sys_user_role WHERE nameSTARTSWITHadmin',
+    //       format: 'JSON',
+    //       now:Date.now()
+    //   }});
+	//   var p2 = $http.get('/x_64935_gql_proc.do', { params: {
+	// 	  gql: 'SELECT roles FROM sys_app_module WHERE application.title=' + name,
+	// 	  format: 'JSON',
+	// 	  now:Date.now()
+	//   }});
+	//   var p3 = $http.get('/x_64935_gql_proc.do', { params: {
+	// 	  gql: 'SELECT roles FROM x_nyk_admin_app_complimentary_app_roles WHERE application.title=' + name,
+	// 	  format: 'JSON',
+	// 	  now:Date.now()
+	//   }});
+	//   Promise.all([p1, p2, p3]).then(function (values) {
+	// 	  var allRoles = values.map(function(x) {return x.data.records;})
+	// 	  .reduce(function(s, x) {
+	// 		  return s.concat(x);
+	// 	  }, []).filter(function(x) {return x.roles != '';}).map(function(x) {return x.roles;}).reduce(function(s, x) {
+	// 		  return s.indexOf(x) == -1 ? s.concat(x) : s;
+	// 	  }, []).join(',');
+	// 	  return allRoles;
+	//   }).then(function(roles) {
+    //       var query = "nameIN" + roles;
+    //       $http.get('/x_64935_gql_proc.do', { params: {
+    //           gql: 'SELECT sys_id FROM sys_user_role WHERE ' + query,
+    //           format: 'JSON',
+    //           now: Date.now()
+    //       }}).then(function(response) {
+    //           var data = response.data.records;
+    //           var query = 'user.active=true^roleIN' + data.map(function (x) { return x.sys_id;}).join(',');
+    //           $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , dv_user.email [User Email]\r  , dv_user.user_name [User ID]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
+    //       });
+    //       // console.log(query);
+	// 	      // $scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);
+	//   });
+
 	};
 
 	$scope.run = function() {
@@ -112,7 +129,8 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 
   $scope.init = function() {
       $http.get('/x_64935_gql_proc.do', { params: {
-          gql: 'SELECT title FROM sys_app_application WHERE category=e0355b31ef303000a61d5a3615c0fb78^NQcategory=bb244a398765150029768c531a434d82^NQcategory=96d142798765150029768c531a434d0b',
+          // gql: 'SELECT title FROM sys_app_application WHERE category=e0355b31ef303000a61d5a3615c0fb78^NQcategory=bb244a398765150029768c531a434d82^NQcategory=96d142798765150029768c531a434d0b',
+		  gql: 'SELECT  u_name, sys_id FROM u_application',
           format: 'JSON',
           now: Date.now()
       }}).then(function(response) {
@@ -125,7 +143,7 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
 ]]></client_script>
         <description>GQL (Glide Query Language) Pad</description>
         <direct>true</direct>
-        <endpoint>x_64935_gql_pad.do</endpoint>
+        <endpoint>x_64935_gql_pad2.do</endpoint>
         <html><![CDATA[<style>
 body { margin-bottom:20pt; }
 
@@ -142,10 +160,11 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
 </style>
 
 <body ng-app="gqlpad">
-	<h3>GQL (Glide Query Language) Pad</h3>
+	<h3>Application User Licenses Report</h3>
 	<div ng-controller="EditorCtrl">
 		<label>Applications:
-			<select ng-model="app" ng-options="app.title for app in apps | orderBy:'title'" ng-change="appSelect(app.title)"></select>
+			<!-- <select ng-model="app" ng-options="app as app.u_name for app in apps | orderBy:'app'" ng-change="appSelect(app.title)"></select> -->
+			<select ng-model="app" ng-options="app as app.u_name for app in apps | orderBy: 'u_name' track by app.sys_id" ng-change="appSelect(app)"></select>
 		</label>
 		<br/>
 		<textarea ng-model="gql" rows="20" style="font:9pt Consolas; width:100%;"></textarea>
@@ -169,21 +188,21 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 ]]></html>
-        <name>pad</name>
+        <name>pad2</name>
         <processing_script/>
         <sys_class_name>sys_ui_page</sys_class_name>
-        <sys_created_by>john.chun</sys_created_by>
-        <sys_created_on>2016-10-18 13:52:56</sys_created_on>
+        <sys_created_by>Yuan.Lin-consultant@nykgroup.com</sys_created_by>
+        <sys_created_on>2018-05-14 19:13:47</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
-        <sys_id>d37bc1214f66a600463efd218110c73a</sys_id>
-        <sys_mod_count>235</sys_mod_count>
-        <sys_name>pad</sys_name>
+        <sys_id>eccc4502dbc653c0eca09c27db96191d</sys_id>
+        <sys_mod_count>18</sys_mod_count>
+        <sys_name>pad2</sys_name>
         <sys_package display_value="gql" source="x_64935_gql">a4d8ddd54f62a600463efd218110c731</sys_package>
         <sys_policy/>
         <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="gql">a4d8ddd54f62a600463efd218110c731</sys_scope>
-        <sys_update_name>sys_ui_page_d37bc1214f66a600463efd218110c73a</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-22 19:48:26</sys_updated_on>
+        <sys_update_name>sys_ui_page_eccc4502dbc653c0eca09c27db96191d</sys_update_name>
+        <sys_updated_by>yuan.lin-consultant@nykgroup.com</sys_updated_by>
+        <sys_updated_on>2018-05-15 19:58:57</sys_updated_on>
     </sys_ui_page>
 </record_update>
