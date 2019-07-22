@@ -14,6 +14,7 @@
         <sys_created_on>2016-10-21 17:32:29</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
         <sys_id>b8fadd264fe6e600463efd218110c788</sys_id>
         <sys_mod_count>2</sys_mod_count>
         <sys_name>GQL</sys_name>

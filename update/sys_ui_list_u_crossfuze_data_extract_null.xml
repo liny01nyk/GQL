@@ -4,92 +4,62 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>name</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
+            <list_id display_value="sysauto" element="NULL" name="sysauto" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a1b0b9330a000641494885177d512f13</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
             <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>ea3fc12774122000b75c5c34e1befa73</sys_id>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2011-04-29 14:36:44</sys_created_on>
+            <sys_id>a1b0b9400a00064152b4d0f4a3eb84f2</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2011-04-29 14:36:44</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>u_mid_server</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
+            <element>active</element>
+            <list_id display_value="sysauto" element="NULL" name="sysauto" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a1b0b9330a000641494885177d512f13</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
             <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>263fc12774122000b75c5c34e1befa74</sys_id>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2011-04-29 14:36:44</sys_created_on>
+            <sys_id>a1b0b9810a000641349359bd6bb11ebc</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2011-04-29 14:36:44</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>u_transport_method</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
+            <element>sys_class_name</element>
+            <list_id display_value="sysauto" element="NULL" name="sysauto" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a1b0b9330a000641494885177d512f13</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
             <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>a63fc12774122000b75c5c34e1befa74</sys_id>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2011-04-29 14:36:44</sys_created_on>
+            <sys_id>a1b0b9820a0006413f07022c148869a1</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
-        </sys_ui_list_element>
-        <sys_ui_list_element action="INSERT_OR_UPDATE">
-            <average_value>false</average_value>
-            <element>u_target_filename</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
-            <max_value>false</max_value>
-            <min_value>false</min_value>
-            <position>3</position>
-            <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>2a3fc12774122000b75c5c34e1befa74</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
-        </sys_ui_list_element>
-        <sys_ui_list_element action="INSERT_OR_UPDATE">
-            <average_value>false</average_value>
-            <element>u_format</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
-            <max_value>false</max_value>
-            <min_value>false</min_value>
-            <position>4</position>
-            <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>aa3fc12774122000b75c5c34e1befa74</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2011-04-29 14:36:44</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_updated_on</element>
-            <list_id display_value="u_crossfuze_data_extract" element="NULL" name="u_crossfuze_data_extract" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a23fc12774122000b75c5c34e1befa73</list_id>
+            <list_id display_value="sysauto" element="NULL" name="sysauto" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">a1b0b9330a000641494885177d512f13</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
-            <position>5</position>
+            <position>3</position>
             <sum>false</sum>
-            <sys_created_by>crossfuze</sys_created_by>
-            <sys_created_on>2012-06-04 15:28:44</sys_created_on>
-            <sys_id>2e3fc12774122000b75c5c34e1befa74</sys_id>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2011-04-29 14:36:44</sys_created_on>
+            <sys_id>a1b0b98e0a0006415f7a1a0e7202f667</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>crossfuze</sys_updated_by>
-            <sys_updated_on>2012-06-04 15:28:44</sys_updated_on>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2011-04-29 14:36:44</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
@@ -106,6 +76,7 @@
             <sys_created_on>2017-09-19 18:05:29</sys_created_on>
             <sys_customer_update>true</sys_customer_update>
             <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
             <sys_id>5d5cdc35db990b40f7b6f1651d961917</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>u_crossfuze_data_extract</sys_name>
@@ -116,7 +87,7 @@
             <sys_update_name>sys_ui_list_u_crossfuze_data_extract_null</sys_update_name>
             <sys_updated_by>lavlesh.garg-tcs@nykgroup.com</sys_updated_by>
             <sys_updated_on>2017-09-19 18:05:29</sys_updated_on>
-            <sys_user display_value="Lavlesh Garg">27d587154fd30600dd19eb1e0210c739</sys_user>
+            <sys_user display_value="Lavlesh Garg">1ec1734e2baea000eef35700f8da1555</sys_user>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>
         </sys_ui_list>

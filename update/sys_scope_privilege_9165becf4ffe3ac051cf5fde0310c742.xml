@@ -19,7 +19,7 @@
         <sys_updated_by>Yuan.Lin-consultant@nykgroup.com</sys_updated_by>
         <sys_updated_on>2017-05-22 19:49:40</sys_updated_on>
         <target_name>x_nyk_admin_app_complimentary_app_roles</target_name>
-        <target_scope display_value="admin app">238a37cb0f623640754f348ce1050e92</target_scope>
+        <target_scope display_value="">238a37cb0f623640754f348ce1050e92</target_scope>
         <target_type>sys_db_object</target_type>
     </sys_scope_privilege>
 </record_update>
