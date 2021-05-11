@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<record_update table="sys_ui_page">
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
     <sys_ui_page action="INSERT_OR_UPDATE">
         <category>general</category>
         <client_script><![CDATA[/**
@@ -85,7 +84,7 @@ app.controller('EditorCtrl', ['$scope', '$http', '$sce', function($scope, $http,
           }}).then(function(response) {
               var data = response.data.records;
               var query = 'user.active=true^roleIN' + data.map(function (x) { return x.sys_id;}).join(',');
-              $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , dv_user.email [User Email]\r  , dv_user.user_name [User ID]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
+              $scope.gql = 'SELECT  -- sample GQL statement for app:' + name + '\r  dv_user [User Name]\r  , user.dv_email [User Email]\r  , user.dv_user_name [User ID]\r  , dv_role [Role]\r  , dv_granted_by [Granted By]\rFROM sys_user_has_role\rWHERE ' + query + '^ORDERBYrole^ORDERBYuser\r-- LIMIT 5,10';
           });
           // console.log(query);
 		      // $scope.result = $sce.trustAsHtml(typeof data == 'object' ? JSON.stringify(data) : data);
@@ -176,7 +175,7 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
         <sys_created_on>2016-10-18 13:52:56</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>d37bc1214f66a600463efd218110c73a</sys_id>
-        <sys_mod_count>236</sys_mod_count>
+        <sys_mod_count>237</sys_mod_count>
         <sys_name>pad</sys_name>
         <sys_package display_value="gql" source="x_64935_gql">a4d8ddd54f62a600463efd218110c731</sys_package>
         <sys_policy/>
@@ -184,6 +183,6 @@ footer { color:gray; font-size:9pt; text-align:center; position:fixed; bottom:0;
         <sys_scope display_value="gql">a4d8ddd54f62a600463efd218110c731</sys_scope>
         <sys_update_name>sys_ui_page_d37bc1214f66a600463efd218110c73a</sys_update_name>
         <sys_updated_by>LINY</sys_updated_by>
-        <sys_updated_on>2019-07-22 18:06:29</sys_updated_on>
+        <sys_updated_on>2019-07-22 18:17:35</sys_updated_on>
     </sys_ui_page>
 </record_update>
